@@ -17,7 +17,7 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
 
 1. Setup an Admin password on the Secure Key following the *First-Time Use* instruction found in the [Aegis User Mannual](https://apricorn.com/content/product_pdf/aegis_secure_key/usb_3.0_flash_drive/ask3_manual_configurable_online_2.pdf) on page 5 
 1. Enable *Lock-Override Mode* (see page 20 of the manual). This enables the key to remain unlocked during reboots and powered shutdowns.
-1. Set the number of Brute-Force Attempts to 6 by following the *Brute-Force Protection* instruction on page 14. Set the number of before/after attempts to 3 as this is consistent with a Ledger-like hardware wallet. 
+1. Set the number of brute-force attempts to 6 by following the *Brute-Force Protection* instruction on page 14. Set the number of before/after attempts to 3 as this is consistent with a Ledger-like hardware wallet. 
 1. Unlock the Aegis Key by entering the Admin PIN and plug it into the server within 30 seconds.
 
 <br>
