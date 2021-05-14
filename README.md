@@ -7,7 +7,7 @@ A PIN will be required whenever the USB key is disconnected from the server or i
 
 ## Hardeware required
 
-Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
+Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note: Any capacity drive will do as you will be storing only a few kilobytes worth of information.  You can order either a USB 3.0 connector (3NX) or a USB C connector (3NXC). It is imporant that the USB drive slot remain powered during a severy shutdown. Yellow (they look oragne to me) colored USB-A ports and most USB C continue power when the server is turned off. In my case I used a 3NX connected to a rear facing USB C (Thunderbolt) slot via and USB-A to USB-C dongle.
 
 ##Installation instructions.
 
@@ -20,8 +20,8 @@ Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
 ### Format and Mount the Secure Key
 
 - [ ] 4. Stop the Rocket Pool service: `rocketpool service stop`
-- [ ] 5. Find the device name: `sudo fdisk -l`
-- [ ] 
+- [ ] 5. Find the device name: `sudo fdisk -l`.  The Disk model will be titled *Secure Key 3.0*. Note the Device name assigned to the drive. In the example below it is `/dev/sda1`.
+
 
 
 ### Configure Rocket Pool
