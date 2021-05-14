@@ -76,7 +76,7 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     sudo mv ~/.rocketpool/data ~/.rocketpool/key/
     ```
 
-1. Edit the config.yml file (`sudo nano ~/.rocketpool/config.yml`) and edit the location of `passwordPath`, `walletPath`, and `vallidatorKeychainPath` by inserting `/key` to the following entries:
+1. Edit the config.yml file (`sudo nano ~/.rocketpool/config.yml`) and edit the location of *passwordPath*, *walletPath*, and *vallidatorKeychainPath* by inserting **/key** to the following entries:
     ```
     passwordPath: /.rocketpool/key/data/password
     walletPath: /.rocketpool/key/data/wallet
