@@ -1,19 +1,17 @@
-# Secure Key
-
-## Instructions for using an Aegis Secure Key with Rocket Pool
+# Instructions for using an Apricorn Aegis Secure Key with Rocket Pool
 
 This guide explains how to configure a Rocket Pool node to store its node wallet, password file, and validator signing keys on an Aegis Secure Key (model 3N or 3NX).  This provides an added layer of security for the home server node operator by placing these files on an AES 256 encrypted USB drive that requires a PIN key to unlock.  The key will be configured so that it will remain unlocked when connected to the server during normal operations, reboots, and powered shutdowns.  When combined with a UPS that will issue commanded shutdowns upon a mains power failer, it will remain unlocked so long as standby power is provided to the server by the UPS. 
 
 A PIN will be required whenever the USB key is disconnected from the server or if the server is unplugged from mains power.  The PIN prevents access to the wallet and the eth2.0 validator signing keys in the event of theft of the server.  Even if the thief plugs in the server designed to autoboot upon power restoration the server will not be able to submit attestations on the installed validators.  This will procide assuance to the node operator that they can reinstall and recover their seeds without fear of having two signing keys triggering a slashing event. Also the node wallet and password file will be inaccessible to the thief without the knowledge of the Aegis Secure Key PIN. 
 
-## Hardeware required
+## Hardware required
 ![](img/secureKey.jpg)
 
-Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note: Any capacity drive will do as you will be storing only a few kilobytes worth of information.  You can order either a USB 3.0 connector (3NX) or a USB C connector (3NXC). It is imporant that the USB drive slot remain powered during a severy shutdown. Yellow (they look oragne to me) colored USB-A ports and most USB C continue power when the server is turned off. In my case I used a 3NX connected to a rear facing USB C (Thunderbolt) slot via and USB-A to USB-C dongle.
+Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note: Any capacity drive will do as you will be storing only a few kilobytes worth of information.  You can order either a USB 3.0 connector (3NX) or a USB C connector (3NXC). The USB drive slot must remain powered during a shutdown. Yellow (they look orange to me) colored USB-A ports, and most USB C continue to provide power when the server is turned off. For my use case, I used a 3NX connected to a rear-facing USB C (Thunderbolt) slot on my server via and USB-A to USB-C dongle.
 
 
 
-## Installation instructions.
+## Installation instructions
 
 ### Configure the Secure Key
 
@@ -30,9 +28,9 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     ```
     sudo fdisk -l
     ```
-    The Disk model will be titled *Secure Key 3.0*. Note the Device name assigned to the drive. In the example below it is `/dev/sda1`.
+    The Disk model will be titled *Secure Key 3.0*. Note the Device name assigned to the drive. In the example below, it is `/dev/sda1`.
 ![](img/fdisk.jpg)
-1. Choose the GPT partioning standard: 
+1. Choose the GPT partitioning standard: 
     ```
     sudo parted /dev/sda mklabel gpt
     ```
@@ -52,11 +50,11 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
  
  ### Mount the Secure Key
 
-1. Create a /key subdirectory under the default ~/.rocketpool directory to mount the Secrue Key
+1. Create a /key subdirectory under the default ~/.rocketpool directory to mount the Secure Key
     ```
     sudo mkdir ~/.rocketpool/key
     ```
-1. Edti the /etc/fstab file (`sudo nano /etc/fstab`) to mount the filesystem automatically each time the server boots by adding the following to the bottom of the /etc/fstab file and save. Replace USERNAME with your the username where the rocketpool directory was installed.
+1. Edit the /etc/fstab file (`sudo nano /etc/fstab`) to mount the filesystem automatically each time the server boots by adding the following to the bottom of the /etc/fstab file and save. Replace USERNAME with your the username where the /.rocketpool directory was installed.
     ```
    /dev/sda1 home/USERNAME/.rocketpool/key ext4 defaults 0 2
     ```
@@ -88,7 +86,7 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     ```
     rocketpool service start
     ```
-1. Verify that the installtion was successfull by checking your node status:
+1. Verify that the installation was successful by checking your node status:
     ```
     rocketpool node status
     ```
