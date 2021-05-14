@@ -32,7 +32,7 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     The Disk model will be titled *Secure Key 3.0*. Note the Device name assigned to the drive. In the example below, it is `/dev/sda1`.
     <br>
     
-![](img/fdisk.jpg)
+    ![](img/fdisk.jpg)
 1. Choose the GPT partitioning standard: 
     ```
     sudo parted /dev/sda mklabel gpt
