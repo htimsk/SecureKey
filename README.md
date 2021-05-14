@@ -13,17 +13,15 @@ Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
 
 ### Configure the Secure Key
 
-- [ ] Setup an Admin password on the DSecureKey following the *First-Time Use* instruction found in the [Aegis User Mannual](https://apricorn.com/content/product_pdf/aegis_secure_key/usb_3.0_flash_drive/ask3_manual_configurable_online_2.pdf) on page 5 
+- [ ] 1. Setup an Admin password on the DSecureKey following the *First-Time Use* instruction found in the [Aegis User Mannual](https://apricorn.com/content/product_pdf/aegis_secure_key/usb_3.0_flash_drive/ask3_manual_configurable_online_2.pdf) on page 5 
+- [ ] 2. Enable *Lock-Override Mode* (see page 20 of the manual). This enables the key to remain unlocked during reboots and powered shutdowns.
+- [ ] 3. Unlock the Aegis Key by intering the Admin PIN and plug it into the server within 30 seconds.
 
-- [ ] Enable *Lock-Override Mode* (see page 20 of the manual). This enables the key to remain unlocked during reboots and powered shutdowns.
+### Format and Mount the Secure Key
 
-- [ ] Unlock the Aegis Key by intering the Admin PIN and plug it into the server within 30 seconds.
+- [ ] 4. Stop the Rocket Pool service: `rocketpool service stop`
+- [ ] 5. Find the device name: `sudo fdisk -l`
+- [ ] 
+
 
 ### Configure Rocket Pool
-
-1. Stop the Rocket Pool service
-```
-rocketpool service stop
-```
-
-1.
