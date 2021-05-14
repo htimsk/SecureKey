@@ -5,4 +5,10 @@ This guide explains how to configure a Rocket Pool node to store its node wallet
 
 A PIN will be required whenever the USB key is disconnected from the server or if the server is unplugged from mains power.  The PIN prevents access to the wallet or signing keys in the event of theft of the server.  It assures that even if the thief plugs in the server, it will not submit attestations on the installed validators, and the node wallet and password file will be inaccessible to the thief without the knowledge of the Aegis Secure Key PIN. 
 
+##Installation instructions.
 
+### Configure the Secure Key
+
+1. Setup an Admin password in Aegis following the *First-Time Use* instructions on page 5 https://apricorn.com/content/product_pdf/aegis_secure_key/usb_3.0_flash_drive/ask3_manual_configurable_online_2.pdf
+
+1. 
