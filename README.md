@@ -85,6 +85,12 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     walletPath: /.rocketpool/key/data/wallet
     validatorKeychainPath: /.rocketpool/key/data/validators
     ````
+1. Edit the docker-compose.yml file (`sudo nano ~/.rocketpool/docker-compose.yml`) and edit the location in the *validator: volumes:* section, by inserting **/key** to the following entry:
+    ```
+     volumes:
+      - ./key/data/validators:/validators
+    ```
+
 1. Start the Rocket Pool service:
     ```
     rocketpool service start
