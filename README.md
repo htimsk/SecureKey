@@ -79,18 +79,27 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     sudo mv ~/.rocketpool/data ~/.rocketpool/key/
     ```
 
-1. Edit the config.yml file (`sudo nano ~/.rocketpool/config.yml`) and edit the location of *passwordPath*, *walletPath*, and *vallidatorKeychainPath* by inserting **/key** to the following entries:
+1. Edit the config.yml file (`sudo nano ~/.rocketpool/config.yml`) and edit the location of *passwordPath*, *walletPath*, and *vallidatorKeychainPath* by inserting **/key** to the following entries: 
     ```
     passwordPath: /.rocketpool/key/data/password
     walletPath: /.rocketpool/key/data/wallet
     validatorKeychainPath: /.rocketpool/key/data/validators
     ````
-1. Edit the docker-compose.yml file (`sudo nano ~/.rocketpool/docker-compose.yml`) and edit the location in the *validator: volumes:* section, by inserting **/key** to the following entry:
+    Save the file when done. 
+    
+1. Edit the docker-compose.yml file (`sudo nano ~/.rocketpool/docker-compose.yml`) and edit the location in the *eth2: volumes:* section, by inserting **/key** to the following entry:
     ```
      volumes:
       - ./key/data/validators:/validators
     ```
 
+1. In ths same the docker-compose.yml file as teh step above scroll down and edit the location in the *validator: volumes:* section, by inserting **/key** to the following entry:
+    ```
+     volumes:
+      - ./key/data/validators:/validators
+    ```
+    Save the file when done. 
+    
 1. Start the Rocket Pool service:
     ```
     rocketpool service start
