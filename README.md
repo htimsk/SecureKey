@@ -92,8 +92,7 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
      volumes:
       - ./key/data/validators:/validators
     ```
-
-In ths same the docker-compose.yml file scroll down and edit the location in the *validator: volumes:* section, by inserting **/key** to the following entry:
+    In ths same the docker-compose.yml file scroll down and edit the location in the *validator: volumes:* section, by inserting **/key** to the following entry:
     ```
      volumes:
       - ./key/data/validators:/validators
