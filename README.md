@@ -144,12 +144,6 @@ Below is a script that will performed smart node upgrades and re-edit the yml fi
     sed -i 's_/.rocketpool/data/validators_/.rocketpool/key/data/validators_' ~/.rocketpool/config.yml
     sed -i 's_./data/validators_./key/data/validators_g' ~/.rocketpool/docker-compose.yml
     
-    searchCMD = "/home/user/nimbus-eth2/build/nimbus_beacon_node --non-interactive --enr-auto-update --network=mainnet --data-dir=/ethclient/nimbus --tcp-port=$ETH2_P2P_PORT --udp-port=$ETH2_P2P_PORT --web3-url=$ETH1_WS>
-
-    replaceCMD =  "/home/user/nimbus-eth2/build/nimbus_beacon_node --non-interactive --enr-auto-update --network=mainnet --data-dir=/ethclient/nimbus --tcp-port=$ETH2_P2P_PORT --udp-port=$ETH2_P2P_PORT --web3-url=$ETH1_>
-
-    # --subscribe-all-subnets
-    sed -i 's/${searchCMD}/${replaceCMD}' ~/.rocketpool/chains/eth2/start-beacon.sh
 
     rocketpool service start
     
