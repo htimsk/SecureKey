@@ -132,10 +132,7 @@ Below is a script that will performed smart node upgrades and re-edit the yml fi
     # Edit the line below for the correct verion of the RP smart stack for your CPU design
     wget https://github.com/rocket-pool/smartnode-install/releases/latest/download/rocketpool-cli-linux-amd64 -O ~/bin/rocketpool 
 
-    #  Now run the install command
-    
     rocketpool service install -d
-    
     
     cp ~/.rocketpool/config.yml ~/.rocketpool/config.old
     cp ~/.rocketpool/docker-compose.yml ~/.rocketpool/docker-compose.old
