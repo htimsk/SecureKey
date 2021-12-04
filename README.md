@@ -112,3 +112,54 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
  
 During the rocketpool node software upgrade process, the files `config.yml` and `docker-compose.yml` will be overwritten. I recommend just repeating the editing steps above on the newly installed versions of the yml files and saving those redone edits prior to restarting the rocketpool service during the upgrade process.   This method of remaking the editing changes vs saving and restoring the older yml file assures that any new features or settings included in the new yml files are incorporated onto your node.
 
+#### Automating Rocket Pool Updates
+
+Below is a script that will performed smart node upgrades and re-edit the yml files to support the Aegis key setup described above. You will have to alter the script with the appropriate software version (AMD or ARM) for your device. 
+
+1. Create a .sh file
+    ```
+    nano rpupdate.sh
+    ```
+1. Copy the following script in to the file and save the file.
+    ```
+    #!/bin/bash
+    set -x #echo one
+    # This simple script downloads the newest version of RocketPool and edits config.yml
+    # and docker-compose.yml
+    
+    rocketpool service stop
+
+    # Edit the line below for the correct verion of the RP smart stack for your CPU design
+    wget https://github.com/rocket-pool/smartnode-install/releases/latest/download/rocketpool-cli-linux-amd64 -O ~/bin/rocketpool 
+
+    #  Now run the install command
+    
+    rocketpool service install -d
+    
+    
+    cp ~/.rocketpool/config.yml ~/.rocketpool/config.old
+    cp ~/.rocketpool/docker-compose.yml ~/.rocketpool/docker-compose.old
+    sed -i 's_/.rocketpool/data/password_/.rocketpool/key/data/password_' ~/.rocketpool/config.yml
+    sed -i 's_/.rocketpool/data/wallet_/.rocketpool/key/data/wallet_' ~/.rocketpool/config.yml
+    sed -i 's_/.rocketpool/data/validators_/.rocketpool/key/data/validators_' ~/.rocketpool/config.yml
+    sed -i 's_./data/validators_./key/data/validators_g' ~/.rocketpool/docker-compose.yml
+    
+    searchCMD = "/home/user/nimbus-eth2/build/nimbus_beacon_node --non-interactive --enr-auto-update --network=mainnet --data-dir=/ethclient/nimbus --tcp-port=$ETH2_P2P_PORT --udp-port=$ETH2_P2P_PORT --web3-url=$ETH1_WS>
+
+    replaceCMD =  "/home/user/nimbus-eth2/build/nimbus_beacon_node --non-interactive --enr-auto-update --network=mainnet --data-dir=/ethclient/nimbus --tcp-port=$ETH2_P2P_PORT --udp-port=$ETH2_P2P_PORT --web3-url=$ETH1_>
+
+    # --subscribe-all-subnets
+    sed -i 's/${searchCMD}/${replaceCMD}' ~/.rocketpool/chains/eth2/start-beacon.sh
+
+    rocketpool service start
+    
+    rocketpool service version
+
+    rocketpool node status
+    ```
+    
+1. When RP smart node software updates are released run:
+    ```
+    sh rpupdate.sh
+    ```
+    
