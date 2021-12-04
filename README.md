@@ -124,8 +124,7 @@ Below is a script that will performed smart node upgrades and re-edit the yml fi
     ```
     #!/bin/bash
     set -x #echo one
-    # This simple script downloads the newest version of RocketPool and edits config.yml
-    # and docker-compose.yml
+    # This simple script downloads the newest version of RocketPool and edits config.yml and docker-compose.yml
     
     rocketpool service stop
 
