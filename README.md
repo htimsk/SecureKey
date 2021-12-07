@@ -130,7 +130,7 @@ Below is a script to perform smart node upgrades and re-edit the `.yml` files to
     rocketpool service stop
 
     # Edit the line below for the correct version of the RP smart stack for your CPU design
-    wget https://github.com/rocket-pool/smartnode-install/releases/latest/download/rocketpool-cli-linux-amd64 -O ~/bin/rocketpool 
+    wget https://github.com/rocket-pool/smartnode-install/releases/latest/download/rocketpool-cli-linux-amd64 -O ~/bin/rocketpool.tmp && mv ~/bin/rocketpool.tmp ~/bin/rocketpool
 
     rocketpool service install -d
     
