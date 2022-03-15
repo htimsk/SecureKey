@@ -47,9 +47,6 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     sudo mkfs.ext4 /dev/sda1
     ```
     > Note: Make sure you pass in the partition and not the entire disk. In Linux, disks have names like `sda`, `sdb`, `hda`, etc. The partitions on these disks have a number appended to the end. So we would want to use something like `sda1` and not `sda`.
-
-
- 
  <br>
  
  ### Mount the Secure Key
@@ -66,8 +63,8 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     ```
     sudo mount -a
     ```
-
 <br>
+
 ### Configure Rocket Pool (Versions 1.3 and later)
 
 1. Stop the Rocket Pool service:
