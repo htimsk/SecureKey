@@ -9,6 +9,7 @@ A PIN will be required whenever the USB key is disconnected from the server or i
 
 Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note: Any capacity drive will do as you will be storing only a few kilobytes worth of information.  You can order either a USB 3.0 connector (3NX) or a USB C connector (3NXC). The USB drive slot must remain powered during a shutdown. Yellow (they look orange to me) colored USB-A ports, and most USB C continue to provide power when the server is turned off. For my use case, I used a 3NX connected to a rear-facing USB C (Thunderbolt) slot on my server via and USB-A to USB-C dongle.
 
+<b> Note for Rasberry Pi4 nodes: </b> I am not yet aware of a mechanism to configure the USB ports on the Pi4 to remain powered on during a reboot. If anyone has a solution to configure a port to continue to provide power during a soft reboot, please share it with the community.  
 
 
 ## Installation instructions
@@ -112,3 +113,44 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
  
 During the rocketpool node software upgrade process, the files `config.yml` and `docker-compose.yml` will be overwritten. I recommend just repeating the editing steps above on the newly installed versions of the yml files and saving those redone edits prior to restarting the rocketpool service during the upgrade process.   This method of remaking the editing changes vs saving and restoring the older yml file assures that any new features or settings included in the new yml files are incorporated onto your node.
 
+#### Automating Rocket Pool Updates
+
+Below is a script to perform smart node upgrades and re-edit the `.yml` files to support the Aegis key setup described above. You will have to edit the script with the appropriate software version (AMD or ARM) for your device. 
+
+1. Create a .sh file
+    ```
+    nano rpupdate.sh
+    ```
+1. Copy the following script in to the file and save the file.
+    ```
+    #!/bin/bash
+    set -x #echo one
+    # This simple script downloads the newest version of RocketPool and edits config.yml and docker-compose.yml
+    
+    rocketpool service stop
+
+    # Edit the line below for the correct version of the RP smart stack for your CPU design
+    wget https://github.com/rocket-pool/smartnode-install/releases/latest/download/rocketpool-cli-linux-amd64 -O ~/bin/rocketpool.tmp && mv ~/bin/rocketpool.tmp ~/bin/rocketpool
+
+    chmod +x ~/bin/rocketpool
+    
+    rocketpool service install -d
+    
+    cp ~/.rocketpool/config.yml ~/.rocketpool/config.old
+    cp ~/.rocketpool/docker-compose.yml ~/.rocketpool/docker-compose.old
+    sed -i 's_/.rocketpool/data/password_/.rocketpool/key/data/password_' ~/.rocketpool/config.yml
+    sed -i 's_/.rocketpool/data/wallet_/.rocketpool/key/data/wallet_' ~/.rocketpool/config.yml
+    sed -i 's_/.rocketpool/data/validators_/.rocketpool/key/data/validators_' ~/.rocketpool/config.yml
+    sed -i 's_./data/validators_./key/data/validators_g' ~/.rocketpool/docker-compose.yml
+    
+    rocketpool service start
+    rocketpool service version
+    sleep 5
+    rocketpool node status
+    ```
+    
+1. When RP smart node software updates are released, run:
+    ```
+    sh rpupdate.sh
+    ```
+    
