@@ -68,8 +68,40 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     ```
 
 <br>
+### Configure Rocket Pool (Versions 1.3 and later)
 
-### Configure Rocket Pool
+1. Stop the Rocket Pool service:
+    ```
+    rocketpool service stop
+    ```
+1. Move the data folder into the key mount:
+    ```
+    sudo mv ~/.rocketpool/data ~/.rocketpool/key/
+    ```
+
+1. Run the Rocket Pool configuration service:
+    ```
+    rocketpool service config
+    ```
+    
+1. Navigate to "Smartnode and Tx Fees" and press [Enter] to edit that submenu.
+
+1. Navigate to "Data Path" and edit that to include the new Aegis file path by instering "/key" so that the entry reads "~/.rocketpool/key/data". Press [Enter] to save that line.  See the image below.
+![](img/settings.jpg)
+
+1. Navigate to "Review Changes and Save." Save and exit. The Rocket Pool configuration service will automatically restart the services upon exit. 
+
+1. Verify that the installation was successful by checking your node status:
+    ```
+    rocketpool node status
+    ```
+<br>
+<br>
+<br>
+<br>
+
+***
+### Configure Rocket Pool (versions 1.24 and earlier)
 
 1. Stop the Rocket Pool service:
     ```
@@ -109,11 +141,11 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     rocketpool node status
     ```
     
-### Upgrading Rocketpool 
+### Upgrading Rocketpool (versions 1.24 and earlier)
  
 During the rocketpool node software upgrade process, the files `config.yml` and `docker-compose.yml` will be overwritten. I recommend just repeating the editing steps above on the newly installed versions of the yml files and saving those redone edits prior to restarting the rocketpool service during the upgrade process.   This method of remaking the editing changes vs saving and restoring the older yml file assures that any new features or settings included in the new yml files are incorporated onto your node.
 
-#### Automating Rocket Pool Updates
+#### Automating Rocket Pool Updates (versions 1.24 and earlier)
 
 Below is a script to perform smart node upgrades and re-edit the `.yml` files to support the Aegis key setup described above. You will have to edit the script with the appropriate software version (AMD or ARM) for your device. 
 
