@@ -27,10 +27,8 @@ The node is able to boot unattended. However, a manually-entered passphrase must
             read -p 'Enter data folder passphrase : ' -s mountphrase
             read -p $'\nRenter the passphrase : ' -s mountphrase2
             echo ""
-
             if [[ "$mountphrase" == "$mountphrase2" ]]; then
                     sudo mount -t ecryptfs -o key=passphrase:passphrase_passwd=${mountphrase},no_sig_cache=yes,verbose=no,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_passthrough=no,ecryptfs_enable_filename_crypto=no ~/.rocketpool/data/ ~/.rocketpool/data
-
             else
                     echo "Passphrases did not match. No action taken."
             fi
