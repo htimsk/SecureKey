@@ -1,4 +1,10 @@
 # Instructions for using an Apricorn Aegis Secure Key with Rocket Pool
+<br>
+
+<B>Note: There is a perfered alternate to this that does not requre the purchase of an Aegis Key. See [Instructions for Using eCryptfs with Rocket Pool](encryptfs.md) for more details. </B> 
+
+
+<br>
 
 This guide explains how to configure a Rocket Pool node to store its node wallet, password file, and validator signing keys on an Aegis Secure Key (model 3N or 3NX).  This provides an added layer of security for the home server node operator by placing these files on an AES 256 encrypted USB drive that requires a PIN key to unlock.  The key will be configured to remain unlocked when connected to the server during normal operations, reboots, and powered shutdowns.  When combined with a UPS that will issue commanded shutdowns upon a mains power failure, it will remain unlocked so long as standby power is provided to the server by the UPS. 
 
@@ -98,88 +104,3 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
 <br>
 
 ***
-### Configure Rocket Pool (versions 1.24 and earlier)
-
-1. Stop the Rocket Pool service:
-    ```
-    rocketpool service stop
-    ```
-1. Move the data folder into the key mount:
-    ```
-    sudo mv ~/.rocketpool/data ~/.rocketpool/key/
-    ```
-
-1. Edit the config.yml file (`sudo nano ~/.rocketpool/config.yml`) and edit the location of *passwordPath*, *walletPath*, and *vallidatorKeychainPath* by inserting **/key** to the following entries: 
-    ```
-    passwordPath: /.rocketpool/key/data/password
-    walletPath: /.rocketpool/key/data/wallet
-    validatorKeychainPath: /.rocketpool/key/data/validators
-    ````
-    Save the file when done. 
-    
-1. Edit the docker-compose.yml file (`sudo nano ~/.rocketpool/docker-compose.yml`) and edit the location in the *eth2: volumes:* section, by inserting **/key** to the following entry:
-    ```
-     volumes:
-      - ./key/data/validators:/validators
-    ```
-    In the same the docker-compose.yml file scroll down and edit the location in the *validator: volumes:* section, by inserting **/key** to the following entry:
-    ```
-     volumes:
-      - ./key/data/validators:/validators
-    ```
-    Save the file when done. 
-    
-1. Start the Rocket Pool service:
-    ```
-    rocketpool service start
-    ```
-1. Verify that the installation was successful by checking your node status:
-    ```
-    rocketpool node status
-    ```
-    
-### Upgrading Rocketpool (versions 1.24 and earlier)
- 
-During the rocketpool node software upgrade process, the files `config.yml` and `docker-compose.yml` will be overwritten. I recommend just repeating the editing steps above on the newly installed versions of the yml files and saving those redone edits prior to restarting the rocketpool service during the upgrade process.   This method of remaking the editing changes vs saving and restoring the older yml file assures that any new features or settings included in the new yml files are incorporated onto your node.
-
-#### Automating Rocket Pool Updates (versions 1.24 and earlier)
-
-Below is a script to perform smart node upgrades and re-edit the `.yml` files to support the Aegis key setup described above. You will have to edit the script with the appropriate software version (AMD or ARM) for your device. 
-
-1. Create a .sh file
-    ```
-    nano rpupdate.sh
-    ```
-1. Copy the following script in to the file and save the file.
-    ```
-    #!/bin/bash
-    set -x #echo one
-    # This simple script downloads the newest version of RocketPool and edits config.yml and docker-compose.yml
-    
-    rocketpool service stop
-
-    # Edit the line below for the correct version of the RP smart stack for your CPU design
-    wget https://github.com/rocket-pool/smartnode-install/releases/latest/download/rocketpool-cli-linux-amd64 -O ~/bin/rocketpool.tmp && mv ~/bin/rocketpool.tmp ~/bin/rocketpool
-
-    chmod +x ~/bin/rocketpool
-    
-    rocketpool service install -d
-    
-    cp ~/.rocketpool/config.yml ~/.rocketpool/config.old
-    cp ~/.rocketpool/docker-compose.yml ~/.rocketpool/docker-compose.old
-    sed -i 's_/.rocketpool/data/password_/.rocketpool/key/data/password_' ~/.rocketpool/config.yml
-    sed -i 's_/.rocketpool/data/wallet_/.rocketpool/key/data/wallet_' ~/.rocketpool/config.yml
-    sed -i 's_/.rocketpool/data/validators_/.rocketpool/key/data/validators_' ~/.rocketpool/config.yml
-    sed -i 's_./data/validators_./key/data/validators_g' ~/.rocketpool/docker-compose.yml
-    
-    rocketpool service start
-    rocketpool service version
-    sleep 5
-    rocketpool node status
-    ```
-    
-1. When RP smart node software updates are released, run:
-    ```
-    sh rpupdate.sh
-    ```
-    
