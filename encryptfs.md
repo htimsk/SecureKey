@@ -36,7 +36,7 @@ The node is able to boot unattended. However, a manually-entered passphrase must
 
     sudo mount -t ecryptfs -o key=passphrase:passphrase_passwd=${mountphrase},no_sig_cache=yes,verbose=no,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_passthrough=no,ecryptfs_enable_filename_crypto=no ~/.rocketpool/data/ ~/.rocketpool/data/
 
-    # On first unlock, create a file with some known text so we can validate it on subsequent unlockes
+    # On first unlock, create a file with some known text so we can validate it on subsequent unlocks
     if [[ ! -f ~/.rocketpool/data/.sentinel ]]; then
             echo "unlocked" > ~/.rocketpool/data/.sentinel
             exit 0
