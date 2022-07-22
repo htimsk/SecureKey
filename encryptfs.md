@@ -68,7 +68,7 @@ The node is able to boot unattended. However, a manually-entered passphrase must
 
 1. Delete the temporary data folder that is now empty. 
     ```
-    sudo rm ~/.rocketpool/datatemp
+    sudo rm -r ~/.rocketpool/datatemp
     ```
 
  1. Restart the Rocket Pool service.
