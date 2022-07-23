@@ -72,7 +72,7 @@ The node is able to boot unattended. However, a manually-entered passphrase must
 
 1. Create a new data folder.
     ```
-    sudo mkdir ~/.rocketpool/data 
+    mkdir ~/.rocketpool/data 
     ```
 
 1. Encrypt the data folder by running RPunlock. 
