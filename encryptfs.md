@@ -17,22 +17,43 @@ The node is able to boot unattended. However, a manually-entered passphrase must
     ```
 
 1. Create a bash script by running `nano RPunlock.sh` and copy the following code into the file. Save the file and exit nano.
-    ```
+    ```bash
     #!/bin/bash
     # This simple unlocks the RocketPool data directory with ecryptfs
 
     if mount | grep .rocketpool/data; then
             echo "Data folder already unlocked."
-    else
-            read -p 'Enter data folder passphrase : ' -s mountphrase
-            read -p $'\nRenter the passphrase : ' -s mountphrase2
-            echo ""
-            if [[ "$mountphrase" == "$mountphrase2" ]]; then
-                    sudo mount -t ecryptfs -o key=passphrase:passphrase_passwd=${mountphrase},no_sig_cache=yes,verbose=no,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_passthrough=no,ecryptfs_enable_filename_crypto=no ~/.rocketpool/data/ ~/.rocketpool/data
-            else
-                    echo "Passphrases did not match. No action taken."
-            fi
+            exit 0
     fi
+
+    read -p 'Enter data folder passphrase : ' -s mountphrase
+    read -p $'\nRenter the passphrase : ' -s mountphrase2
+    echo ""
+    if [[ "$mountphrase" -ne "$mountphrase2" ]]; then
+            echo "Passphrases did not match. No action taken."
+            exit 1
+    fi
+
+    sudo mount -t ecryptfs -o key=passphrase:passphrase_passwd=${mountphrase},no_sig_cache=yes,verbose=no,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_passthrough=no,ecryptfs_enable_filename_crypto=no ~/.rocketpool/data/ ~/.rocketpool/data/
+
+    # On first unlock, create a file with some known text so we can validate it on subsequent unlocks
+    if [[ ! -f ~/.rocketpool/data/.sentinel ]]; then
+            echo "unlocked" > ~/.rocketpool/data/.sentinel
+            exit 0
+    fi
+
+    # On subsequent unlockes, if `cat` fails or the file doesn't contain the right string, the password was probably incorrect
+    SENTINEL=$(cat ~/.rocketpool/data/.sentinel 2>/dev/null)
+    if [[ $? -ne 0 ]] || [[ $SENTINEL -ne "unlocked" ]]; then
+            echo "Incorrect password."
+            # ecryptfs mounts anyway, so unmount before exiting
+            sudo umount ~/.rocketpool/data
+            echo "Unmounted eCryptfs"
+            exit 1
+    fi
+
+    exit 0
+    ```
 
 1. Make the RPunlock.sh script executable.
     ```
