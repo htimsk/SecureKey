@@ -6,6 +6,8 @@ This setup has a few advantages over the Aegis secure key. They include the abil
 
 The node is able to boot unattended. However, a manually-entered passphrase must be provided for the server to resume attesting duties. That passphrase can be remotely provided via SSH or supplied locally via the keyboard. The use of the encrypted data folder prevents access to the wallet and the consensus client validator signing keys in the event of theft of the server. Even if the thief plugs in the server designed to autoboot upon power restoration, the server will not submit attestations on the installed validators. This will assure the node operator that they can reinstall and recover their seeds without fear of having two signing keys triggering a slashing event. Also, the node wallet and password file will be inaccessible to the thief without knowing the passphrase.
 
+Please note the **warning** below when updating the Rocket Pool smart node software using this eCryptfs method to secure the data directory. 
+
 
 ### Installation instructions
 
