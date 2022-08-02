@@ -101,6 +101,8 @@ The node is able to boot unattended. However, a manually-entered passphrase must
 
 ### Using RPunlock
 
+**Warning** Always make sure that your ecrypts volume is unlocked when updating the Rocket Pool smart node software (e.g. running `rocketpool service install`). 
+
 During power restarts and node reboots, the node OS and Rocket Pool software will start, but the validator keys will not be accessible. During reboots, it will be necessary for the Node Operator to perform the following actions manually. These can be performed either locally on the node or via SSH. 
 
 1. Stop the rocket pool service.
