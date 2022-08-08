@@ -1,7 +1,7 @@
 # Instructions for using an Apricorn Aegis Secure Key with Rocket Pool
 <br>
 
-<B>Note: Note: There is an alternate method using eCryptfs that does not require the purchase of an Aegis Key. However, issues have been reported when rebooting and having the RP software stack access the \data folder before it has been decrypted on reboot. For this reason, the preferred method is using the Aegis key. See [Instructions for Using eCryptfs with Rocket Pool](encryptfs.md) for more details. </B> 
+<B>Note: There is an alternate method using eCryptfs that does not require the purchase of an Aegis Key. However, issues have been reported when rebooting and having the RP software stack access the \data folder before it has been decrypted on reboot. For this reason, the preferred method is using the Aegis key. See [Instructions for Using eCryptfs with Rocket Pool](encryptfs.md) for more details. </B> 
 
 
 <br>
