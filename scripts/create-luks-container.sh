@@ -45,7 +45,9 @@ verify_key_url() {
     check_key="$1"
     url="$2"
     remote_key="$(curl -L -sS ${url})"
-    [[ "${remote_key}" = "${check_key}" ]] && return 0
+    if [ "${remote_key}" = "${check_key}" ]; then
+        return 0
+    fi
     echo -n "Key on \"${url}\" does not match check key: "
     echo "remote: ${remote_key} != local: ${check_key}"
     return 1
@@ -187,8 +189,10 @@ echo "Please run ${LUKS_CONTAINERS_PATH}/${name}/unlock.sh to unlock it"
 echo "Waiting for container unlock..."
 
 while true; do
-    [[ ! -L /dev/mapper/${name} ]] && sleep 1 && continue
-    break
+    if [ -L /dev/mapper/${name} ]; then
+        break
+    fi
+    sleep 1
 done
 
 echo "Container unlocked. Mounting ${LUKS_MOUNTS_PATH}/${name}..."
