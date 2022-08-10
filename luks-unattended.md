@@ -11,35 +11,41 @@ automatically on every boot.
 
 Note that the full decryption key is never stored on the node.
 The LUKS container is unlocked by fetching a partial decryption key from an external host.
-The host can be, for example, a local network server or AWS S3.
 
-### Setup encrypted partition
+### Setup encrypted LUKS container
 
 This scheme allows unattended operation of your node.
-The encrypted partition will be automatically decrypted after every boot.
+The encrypted LUKS container will be automatically decrypted after every boot.
 
 This approach is reasonable in a threat model where a thief taking the device is unaware of its purpose (staking).
 A determined attacker, going after the keys specifically, will be able to subvert both this and the original Aegis key approaches - by simply using a boot disk while taking the care to not power down the node.
 
-This being said, the automatic unlock scheme still provides some security margin:
+With this in mind, the automatic unlock scheme does still provides some security margin:
 
-  * If the (partial) decryption key is on a local server, the node will not be able to decrypt the partition unless the local server is also stolen and properly configured on the attacker's network
+  * If the (partial) decryption key is on a local server, the node will not be able to decrypt the container unless the local server is also stolen and properly configured on the attacker's network
   * If the (partial) decryption key is on a remote server, we can delete it before the attacker boots up the server on a new location
   * We can deploy creative countermeasures to slow down an adversary even more, and gain us enough time to scrub the remote key from its location
 
-1. Create partition and deploy systemd unit files
-  In this example, we are creating a partition with 2 GB of space
+### Setup encrypted LUKS container
+
+1. Download the LUKS container creation script:
   ```shell
-  ./create-encrypted-partition.sh unattended vault 2GB
+   curl -LO https://raw.githubusercontent.com/poupas/SecureKey/main/scripts/create-luks-container.sh
+   chmod +x create-luks-container.sh
+   ```
+
+1. Create a LUKS container
+  ```shell
+  ./create-luks-container.sh unattended vault 2GiB
   ```
 
-### Move configuration files to the encrypted partition
+### Move configuration files to the encrypted mount point
 
 1. Complete the regular installation of the Rocket Pool node software.
 
-1. Start and enable the encrypted partition
+1. Start and enable the encrypted LUKS container
   ```shell
-  sudo systemctl enable --now unlock-vault.service vault.mount
+  sudo systemctl enable --now mount-vault.service
   ```
 
 1. Stop the Rocket Pool service
@@ -47,13 +53,13 @@ This being said, the automatic unlock scheme still provides some security margin
   rocketpool service stop
   ```
 
-1. Transfer the configuration files to the encrypted partition
+1. Transfer the configuration files to the encrypted mount point
   ```shell
-  sudo chown ${USER} -R -- /var/lib/vault/
-  mkdir /var/lib/vault/rocketpool
-  sudo cp -a ~/.rocketpool/* /var/lib/vault/rocketpool/
+  sudo chown ${USER} -R -- /var/lib/luks/vault/
+  mkdir /var/lib/luks/vault/rocketpool
+  sudo cp -a ~/.rocketpool/* /var/lib/luks/vault/rocketpool/
   mv .rocketpool .rocketpool.bak # We will remove this later
-  ln -s /var/lib/vault/rocketpool $HOME/.rocketpool
+  ln -s /var/lib/luks/vault/rocketpool $HOME/.rocketpool
   ``` 
 
 1. Start the Rocket Pool Service

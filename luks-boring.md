@@ -1,4 +1,4 @@
-# Instructions for Using dm-crypt/LUKS with Rocket Pool
+# Instructions for using dm-crypt/LUKS with Rocket Pool
 
 This guide explains how to configure a Rocket Pool node to store its configuration
 directory (e.g. `~/.rocketpool`) in an encrypted LUKS file container (not to be confused with Docker containers).
@@ -22,7 +22,7 @@ in into the node and enter the decryption key on every boot.
   ./create-luks-container.sh manual vault 2GiB
   ```
 
-1. Unlock the partition
+1. Unlock the LUKS container
 
 **Note**:
   * You will need to run this step every time the node reboots
@@ -32,13 +32,13 @@ in into the node and enter the decryption key on every boot.
    sudo /var/lib/luks/.containers/vault/unlock.sh
    ```
 
-### Move configuration files to the encrypted partition
+### Move configuration files to the encrypted mount point
 
 1. Complete the regular installation of the Rocket Pool node software.
 
-1. Start and enable the encrypted partition
+1. Start and enable the encrypted LUKS container
   ```shell
-  sudo systemctl enable mount-vault.service
+  sudo systemctl enable --now mount-vault.service
   ```
 
 1. Stop the Rocket Pool service
@@ -46,7 +46,7 @@ in into the node and enter the decryption key on every boot.
   rocketpool service stop
   ```
 
-1. Transfer the configuration files to the encrypted partition
+1. Transfer the configuration files to the encrypted mount point
   ```shell
   sudo chown ${USER} -R -- /var/lib/luks/vault/
   mkdir /var/lib/luks/vault/rocketpool
