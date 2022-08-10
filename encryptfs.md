@@ -1,6 +1,11 @@
 # Instructions for Using eCryptfs with Rocket Pool
 
-<B>Note: Issues have been reported using the eCrypts method of securing the /data directory when rebooting. The RP software stack may attempt to access and write to the \data folder before it has been decrypted following a reboot. For this reason, the preferred method is using the Aegis key.</B> 
+<B>Note2: A better solution by @poupas using dm-crypt/LUKS containers exits. Readers are recomended to use one of these two main approaches:
+
+1. (A traditional "log into the node and input key" to unlock the encrypted LUKS container)[https://github.com/poupas/SecureKey/blob/main/luks-boring.md]
+2. (A "fetch  key from somewhere and unlock automatically" to allow for unattended operation([https://github.com/poupas/SecureKey/blob/main/luks-unattended.md]</B> 
+
+<B>Note2: Issues have been reported using the eCrypts method of securing the /data directory when rebooting. The RP software stack may attempt to access and write to the \data folder before it has been decrypted following a reboot. For this reason, the preferred method is using the Aegis key.</B> 
 
 
 This guide explains how to configure a Rocket Pool node to store its node wallet, password file, validator signing keys, and slashing database in an encrypted folder using eCryptfs. eCryptfs is a package of disk encryption software for Linux. Its implementation is a POSIX-compliant filesystem-level encryption layer, aiming to offer functionality similar to that of GnuPG at the operating system level. It has been part of the Linux kernel since version 2.6.19. This provides an added layer of security for node operators by placing these files in a 16-bit AES encrypted folder that requires a manually entered passphrase to unlock. The folder will be configured to remain unlocked during normal operations but will lock during reboots and power loss events.
