@@ -12,10 +12,9 @@ automatically on every boot.
 Note that the full decryption key is never stored on the node.
 The LUKS container is unlocked by fetching a partial decryption key from an external host.
 
-### Setup encrypted LUKS container
+### Rationale
 
-This scheme allows unattended operation of your node.
-The encrypted LUKS container will be automatically decrypted after every boot.
+The LUKS container will be automatically decrypted after every boot.
 
 This approach is reasonable in a threat model where a thief taking the device is unaware of its purpose (staking).
 A determined attacker, going after the keys specifically, will be able to subvert both this and the original Aegis key approaches - by simply using a boot disk while taking the care to not power down the node.
@@ -26,54 +25,54 @@ With this in mind, the automatic unlock scheme does still provides some security
   * If the (partial) decryption key is on a remote server, we can delete it before the attacker boots up the server on a new location
   * We can deploy creative countermeasures to slow down an adversary even more, and gain us enough time to scrub the remote key from its location
 
-### Setup encrypted LUKS container
+### Setup unattended LUKS container
 
 1. Download the LUKS container creation script:
-  ```shell
-   curl -LO https://raw.githubusercontent.com/poupas/SecureKey/main/scripts/create-luks-container.sh
-   chmod +x create-luks-container.sh
-   ```
+    ```shell
+    curl -LO https://raw.githubusercontent.com/poupas/SecureKey/main/scripts/create-luks-container.sh
+    chmod +x create-luks-container.sh
+    ```
 
 1. Create a LUKS container
-  ```shell
-  ./create-luks-container.sh unattended vault 2GiB
-  ```
+    ```shell
+    ./create-luks-container.sh manual vault 2GiB
+    ```
 
 ### Move configuration files to the encrypted mount point
 
 1. Complete the regular installation of the Rocket Pool node software.
 
 1. Start and enable the encrypted LUKS container
-  ```shell
-  sudo systemctl enable --now mount-vault.service
-  ```
+    ```shell
+    sudo systemctl enable --now mount-vault.service
+    ```
 
 1. Stop the Rocket Pool service
-  ```shell
-  rocketpool service stop
-  ```
+    ```shell
+    rocketpool service stop
+    ```
 
 1. Transfer the configuration files to the encrypted mount point
-  ```shell
-  sudo chown ${USER} -R -- /var/lib/luks/vault/
-  mkdir /var/lib/luks/vault/rocketpool
-  sudo cp -a ~/.rocketpool/* /var/lib/luks/vault/rocketpool/
-  mv .rocketpool .rocketpool.bak # We will remove this later
-  ln -s /var/lib/luks/vault/rocketpool $HOME/.rocketpool
-  ``` 
+    ```shell
+    sudo chown ${USER} -R -- /var/lib/luks/vault/
+    mkdir /var/lib/luks/vault/rocketpool
+    sudo cp -a ~/.rocketpool/* /var/lib/luks/vault/rocketpool/
+    mv .rocketpool .rocketpool.bak # We will remove this later
+    ln -s /var/lib/luks/vault/rocketpool $HOME/.rocketpool
+    ``` 
 
 1. Start the Rocket Pool Service
-  ```shell
-  rocketpool service start
-  ```
+    ```shell
+    rocketpool service start
+    ```
  
  1. Confirm that the node is functioning normally by watching the event logs for proper attestations.
-  ```shell
-  rocketpool service logs eth2
-  ````
+    ```shell
+    rocketpool service logs eth2
+    ````
 
 1. If everything is working correctly, remove the old configuration files
-  ```shell
-  apt-get install secure-delete
-  srm -rfll ${USER}/.rocketpool.bak
-  ```
+    ```shell
+    apt-get install secure-delete
+    srm -rfll ${USER}/.rocketpool.bak
+    ```
