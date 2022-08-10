@@ -30,33 +30,8 @@ This being said, the automatic unlock scheme still provides some security margin
 1. Create partition and deploy systemd unit files
   In this example, we are creating a partition with 2 GB of space
   ```shell
-  ./create-encrypted-partition.sh unattended vault 2GB https://url.of.your.key.file
+  ./create-encrypted-partition.sh unattended vault 2GB
   ```
-
-1. Create a manual unlock key
-
-  The server hosting the key file must be available at the time of unlocking the partition.
-  This has a security advantage: we can remove the key from the server in case of node theft,
-  making the partition unlockable.
-  On the other hand, it potentially creates a data availability issue: a service outage, coincinding with a reboot,
-  could lead to your encrypted partition not being unlocked.
-
-  To mitigate this, we recommend you add an additional manual key:
-   ```shell
-    openssl rand -hex 20
-   ```
-   
-   Write down this manual key and keep it safe. You may need it in case the remote key is not available.
-   
-   Allow this key to unlock the encrypted partition:
-   ```shell
-   sudo cryptsetup...
-   ```
-
-   Hopefully we'll never need to use this key, but if you do, you can use it to unlock the partition:
-   ```shell
-   sudo cryptsetup luksOpen ...
-   ```
 
 ### Move configuration files to the encrypted partition
 
