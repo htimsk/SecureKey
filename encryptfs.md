@@ -1,6 +1,6 @@
 # Instructions for Using eCryptfs with Rocket Pool
 
-<B>Note2: A better solution by @poupas using dm-crypt/LUKS containers exits. Readers are recommended to use one of these two main approaches:
+<B>Note2: A better solution has been described by @poupas using dm-crypt/LUKS containers. Readers are recommended to use one of these two main approaches versus the eCryptfs approach described below.
 
 1. [A traditional "log into the node and input key" to unlock the encrypted LUKS container](https://github.com/poupas/SecureKey/blob/main/luks-boring.md)
 2. [A "fetch  key from somewhere and unlock automatically" to allow for unattended operation](https://github.com/poupas/SecureKey/blob/main/luks-unattended.md)</B>
