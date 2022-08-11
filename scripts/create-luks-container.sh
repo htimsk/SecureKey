@@ -4,6 +4,7 @@ LUKS_PATH="/var/lib/luks"
 LUKS_CONTAINERS_PATH="${LUKS_PATH}/.containers"
 LUKS_MOUNTS_PATH="${LUKS_PATH}"
 ENCRYPTED_DATA_FILE="data"
+INITIALIZED_MARKER=".init-done"
 
 set -eu
 
@@ -65,12 +66,6 @@ create_pepper() {
 create_data_file() {
     data_path="${LUKS_CONTAINERS_PATH}/$1"
     size=$2
-
-    if [ -e "${data_path}/${ENCRYPTED_DATA_FILE}" ]; then
-        echo "Error: LUKS container already exists. Refusing to overwrite it"
-        return 1
-    fi
-
     mkdir -m 0700 -p ${data_path} &&
     fallocate -l ${size} "${data_path}/${ENCRYPTED_DATA_FILE}" &&
     chmod 0600 "${data_path}/${ENCRYPTED_DATA_FILE}"
@@ -238,6 +233,15 @@ EOF
     # Set permissions
     chmod 0500 -- ${LUKS_CONTAINERS_PATH}/${name}/*.sh
 }
+
+set_container_as_initialized() {
+    touch "${LUKS_CONTAINERS_PATH}/$1/${INITIALIZED_MARKER}"
+}
+
+is_container_initialized() {
+    [ -f "${LUKS_CONTAINERS_PATH}/$1/${INITIALIZED_MARKER}" ]
+}
+
 umask 0077
 ACTION=${1-:}
 case "${ACTION}" in
@@ -253,12 +257,14 @@ case "${ACTION}" in
         name=$1
         size=$2
 
+        is_container_initialized ${name} && echo "Error: LUKS container is already initialized" && exit 1
         install_dependencies
         init_base_paths
         create_data_file ${name} ${size}
         create_container ${name} ""
         deploy_systemd_units ${name}
         deploy_manual_control_scripts ${name}
+        set_container_as_initialized ${name}
         ;;
 
     unattended)
@@ -273,6 +279,7 @@ case "${ACTION}" in
         name=$1
         size=$2
 
+        is_container_initialized ${name} && echo "Error: LUKS container is already initialized" && exit 1
         install_dependencies
         init_base_paths
         key=$(create_key)
@@ -291,6 +298,8 @@ case "${ACTION}" in
         echo "If the remote key server is unavailable, you can manually unlock the LUKS container with:"
         echo "cryptsetup luksOpen ${LUKS_CONTAINERS_PATH}/${name}/data ${name} --key-file=/path/to/keyfile"
         echo
+
+        set_container_as_initialized ${name}
         ;;
 
     interactive)
