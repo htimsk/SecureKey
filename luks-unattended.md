@@ -74,5 +74,5 @@ With this in mind, the automatic unlock scheme does still provides some security
 1. If everything is working correctly, remove the old configuration files
     ```shell
     apt-get install secure-delete
-    srm -rfll ${USER}/.rocketpool.bak
+    sudo srm -r ${USER}/.rocketpool.bak
     ```
