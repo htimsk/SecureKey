@@ -186,7 +186,7 @@ set -eu
 
 echo "This LUKS container requires a manual unlock"
 echo "Please run ${LUKS_CONTAINERS_PATH}/${name}/unlock.sh to unlock it"
-echo "Waiting for container unlock..."
+echo "Waiting for unlock..."
 
 while true; do
     if [ -L /dev/mapper/${name} ]; then
@@ -195,7 +195,7 @@ while true; do
     sleep 1
 done
 
-echo "Container unlocked. Mounting ${LUKS_MOUNTS_PATH}/${name}..."
+echo "Successfully unlocked. Mounting ${LUKS_MOUNTS_PATH}/${name}..."
 mount -o noatime /dev/mapper/${name} ${LUKS_MOUNTS_PATH}/${name}
 EOF
 
@@ -231,7 +231,7 @@ remote_key=\$(while true; do curl --fail -sS -L ${url} && break || sleep 10; don
 key=\$(mix_pepper_and_key ${name} \${remote_key})
 
 echo \${key} | cryptsetup luksOpen -q --key-file=- ${LUKS_CONTAINERS_PATH}/${name}/${ENCRYPTED_DATA_FILE} ${name}
-echo "Container unlocked. Mounting ${LUKS_MOUNTS_PATH}/${name}..."
+echo "Successfully unlocked. Mounting ${LUKS_MOUNTS_PATH}/${name}..."
 mount -o noatime /dev/mapper/${name} ${LUKS_MOUNTS_PATH}/${name}
 EOF
 
