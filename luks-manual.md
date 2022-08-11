@@ -19,7 +19,7 @@ in into the node and enter the decryption key on every boot.
 
 1. Create a LUKS container
     ```shell
-    ./create-luks-container.sh manual vault 2GiB
+    sudo ./create-luks-container.sh manual vault 2GiB
     ```
 
 1. Unlock the LUKS container
