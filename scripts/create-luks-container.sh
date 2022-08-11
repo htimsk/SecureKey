@@ -165,6 +165,7 @@ Before=docker.service
 Type=oneshot
 ExecStart=/bin/sh "${LUKS_CONTAINERS_PATH}/${name}/mount.sh"
 RemainAfterExit=true
+Restart=on-failure
 ExecStop=/usr/bin/umount "${LUKS_MOUNTS_PATH}/${name}"
 ExecStop=/sbin/cryptsetup -d - -v luksClose ${name}
 
@@ -226,7 +227,7 @@ mix_pepper_and_key() {
     echo "\${pepper}\${key}" | openssl dgst -sha256 -binary | base32 -w0 | sed 's/=//g' | tr '[:upper:]' '[:lower:]'
 }
 
-remote_key=\$(curl -sS -L ${url})
+remote_key=\$(while true; do curl --fail -sS -L ${url} && break || sleep 10; done; )
 key=\$(mix_pepper_and_key ${name} \${remote_key})
 
 echo \${key} | cryptsetup luksOpen -q --key-file=- ${LUKS_CONTAINERS_PATH}/${name}/${ENCRYPTED_DATA_FILE} ${name}
