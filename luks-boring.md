@@ -70,3 +70,15 @@ in into the node and enter the decryption key on every boot.
     apt-get install secure-delete
     sudo srm -r ${USER}/.rocketpool.bak
     ```
+
+## Removing the LUKS container
+
+**WARNING**: here be dragons. Be careful to not remove a LUKS container currently in use by Rocket Pool.
+
+Removing the encrypted container will destroy all data stored inside it. Make sure you have copies of any important data you wish to keep.
+
+```shell
+sudo systemctl disable --now mount-vault.service
+sudo rm /etc/systemd/system/mount-vault.service
+sudo rm -r /var/lib/luks/.containers/vault
+```
