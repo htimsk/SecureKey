@@ -121,12 +121,16 @@ get_linux_platform() {
     echo ${platform}
 }
 
-install_dependencies() {
-    command -v cryptsetup >/dev/null 2>&1 &&
-    command -v fallocate >/dev/null 2>&1 &&
-    command -v curl >/dev/null 2>&1
-    return 0
+check_dependencies() {
+    for cmd in cryptsetup fallocate curl; do
+        if ! command -v ${cmd} >/dev/null 2>&1; then
+            install_dependencies
+            return $?
+        fi
+    done
+}
 
+install_dependencies() {
     case $(get_linux_platform) in
         Ubuntu|Debian|Raspbian)
             apt-get update -y >/dev/null 2>&1 &&
@@ -258,7 +262,7 @@ case "${ACTION}" in
         size=$2
 
         is_container_initialized ${name} && echo "Error: LUKS container is already initialized" && exit 1
-        install_dependencies
+        check_dependencies
         init_base_paths
         create_data_file ${name} ${size}
         create_container ${name} ""
@@ -280,7 +284,7 @@ case "${ACTION}" in
         size=$2
 
         is_container_initialized ${name} && echo "Error: LUKS container is already initialized" && exit 1
-        install_dependencies
+        check_dependencies
         init_base_paths
         key=$(create_key)
         url=$(check_remote_key ${key})
