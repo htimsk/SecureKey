@@ -108,7 +108,7 @@ get_linux_platform() {
         return 1
     fi
 
-    if command -v lsb_release &>/dev/null; then
+    if command -v lsb_release >/dev/null 2>&1; then
         platform=$(lsb_release -si)
     elif [ -f "/etc/centos-release" ]; then
         platform="CentOS"
