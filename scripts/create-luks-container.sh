@@ -56,7 +56,7 @@ verify_key_url() {
 create_pepper() {
     data_path="${LUKS_CONTAINERS_PATH}/$1"
     if [ ! -d ${data_path} ]; then
-        echo "error: secret data path ${data_path} does not exist!"
+        echo "Error: data path ${data_path} does not exist!"
         return 1
     fi
     dd if=/dev/urandom bs=1 count=35 iflag=fullblock 2>/dev/null | base32 -w0 > ${data_path}/pepper
@@ -67,7 +67,7 @@ create_data_file() {
     size=$2
 
     if [ -e "${data_path}/${ENCRYPTED_DATA_FILE}" ]; then
-        echo "This secret already exists. Will not overwrite"
+        echo "Error: LUKS container already exists. Refusing to overwrite it"
         return 1
     fi
 
