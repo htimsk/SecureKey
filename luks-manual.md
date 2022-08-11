@@ -24,13 +24,14 @@ in into the node and enter the decryption key on every boot.
 
 1. Unlock the LUKS container
 
+     ```shell
+     sudo /var/lib/luks/.containers/vault/unlock.sh
+     ```
+
     **Note**
       * You will need to run this step every time the node reboots
       * Docker will not start until the LUKS container is unlocked
 
-     ```shell
-     sudo /var/lib/luks/.containers/vault/unlock.sh
-     ```
 
 ### Move configuration files to the encrypted mount point
 
