@@ -35,7 +35,7 @@ With this in mind, the automatic unlock scheme does still provides some security
 
 1. Create a LUKS container
     ```shell
-    ./create-luks-container.sh manual vault 2GiB
+    ./create-luks-container.sh unattended vault 2GiB
     ```
 
 ### Move configuration files to the encrypted mount point
