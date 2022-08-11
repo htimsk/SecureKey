@@ -92,7 +92,7 @@ create_container() {
         return 1
     fi
 
-    mkfs.ext4 /dev/mapper/${name} >/dev/null &&
+    mkfs.ext4 /dev/mapper/${name} >/dev/null 2>&1 &&
     mkdir -p ${mnt_path} &&
     chmod 0000 ${mnt_path} &&
     mount /dev/mapper/${name} ${mnt_path} &&
@@ -240,6 +240,7 @@ EOF
 
 set_container_as_initialized() {
     touch "${LUKS_CONTAINERS_PATH}/$1/${INITIALIZED_MARKER}"
+    echo "LUKS container \"${1}\" created successfully!"
 }
 
 is_container_initialized() {
