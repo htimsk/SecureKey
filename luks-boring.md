@@ -68,5 +68,5 @@ in into the node and enter the decryption key on every boot.
 1. If everything is working correctly, remove the old configuration files
     ```shell
     apt-get install secure-delete
-    srm -rfll ${USER}/.rocketpool.bak
+    srm -r ${USER}/.rocketpool.bak
     ```
