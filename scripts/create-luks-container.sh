@@ -59,7 +59,7 @@ create_pepper() {
         echo "error: secret data path ${data_path} does not exist!"
         return 1
     fi
-    dd if=/dev/urandom of="${data_path}/pepper" bs=1 count=35 iflag=fullblock 2>/dev/null | base32 -w0
+    dd if=/dev/urandom bs=1 count=35 iflag=fullblock 2>/dev/null | base32 -w0 > ${data_path}/pepper
 }
 
 create_data_file() {
@@ -238,6 +238,7 @@ EOF
     # Set permissions
     chmod 0500 -- ${LUKS_CONTAINERS_PATH}/${name}/*.sh
 }
+umask 0077
 ACTION=${1-:}
 case "${ACTION}" in
     manual)
