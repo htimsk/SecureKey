@@ -242,11 +242,12 @@ umask 0077
 ACTION=${1-:}
 case "${ACTION}" in
     manual)
+        type=$1
         shift
         # Expected arguments: name, size
         if [ $# -ne 2 ]; then
-            echo "usage: $0 manual NAME SIZE"
-            echo "example: $0 manual vault 2GB"
+            echo "usage: $0 ${type} NAME SIZE"
+            echo "example: $0 ${type} vault 2GB"
             exit 1
         fi
         name=$1
@@ -261,11 +262,12 @@ case "${ACTION}" in
         ;;
 
     unattended)
+        type=$1
         shift
         # Expected arguments: name, size
         if [ $# -ne 2 ]; then
-            echo "usage: $0 unattended NAME SIZE"
-            echo "example: $0 unattended vault 2GB"
+            echo "usage: $0 ${type} NAME SIZE"
+            echo "example: $0 ${type} vault 2GB"
             exit 1
         fi
         name=$1
