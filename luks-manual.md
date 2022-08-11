@@ -80,5 +80,7 @@ Removing the encrypted container will destroy all data stored inside it. Make su
 ```shell
 sudo systemctl disable --now mount-vault.service
 sudo rm /etc/systemd/system/mount-vault.service
+sudo umount /var/lib/luks/vault > /dev/null 2>&1
+sudo cryptsetup luksClose vault > /dev/null 2>&1
 sudo rm -r /var/lib/luks/.containers/vault
 ```
