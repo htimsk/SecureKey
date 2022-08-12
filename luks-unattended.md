@@ -24,7 +24,9 @@ With this in mind, the automatic unlock scheme does still provides some security
     key access from certain IPs (e.g. your home external IP)
   * The unlock script can try do detect if it is running in the correct environment by scanning for WiFi networks, checking the MAC address of the default gateway, etc.
 
-Being able to delete the encryption key remotely, and thus help protect the LUKS container in case of theft, is a desirable feature from a security standpoint.
+#### Key server unavailability
+
+Having the key on a remote server, allows us to remove it in case of theft, to protect the encrypted data. This a desirable feature from a security standpoint.
 On the other hand, it may cause data availablity issues.
 If during a system boot, the server hosting the key is unavailable, the container will not unlock. For this reason, we also create
 a manual decryption key, to be used in those cases.
