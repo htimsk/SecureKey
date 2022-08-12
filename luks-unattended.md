@@ -22,7 +22,7 @@ With this in mind, the automatic unlock scheme does still provides some security
   * If the (partial) decryption key is on a local server, the node will not be able to decrypt the container unless the local server is also stolen and properly configured on the attacker's network
   * If the (partial) decryption key is on a remote server, we can delete it before the attacker boots up the server on a new location. Or we can only allow
     key access from certain IPs (e.g. your home external IP)
-  * The unlock script can try do detect if it is running in the correct environment by scanning for WiFi networks, checking the MAC address for the default gateway, etc.
+  * The unlock script can try do detect if it is running in the correct environment by scanning for WiFi networks, checking the MAC address of the default gateway, etc.
 
 Being able to delete the encryption key remotely, and thus help protect the LUKS container in case of theft, is a desirable feature from a security standpoint.
 On the other hand, it may cause data availablity issues.
