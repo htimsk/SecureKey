@@ -26,7 +26,7 @@ With this in mind, the automatic unlock scheme does still provides some security
 
 #### Key server unavailability
 
-Having the key on a remote server, allows us to remove it in case of theft, to protect the encrypted data. This a desirable feature from a security standpoint.
+If the key is on a remote server, we can remove it to protect the encrypted data if the node is stolen. This a desirable feature from a security standpoint.
 On the other hand, it may cause data availablity issues.
 If during a system boot, the server hosting the key is unavailable, the container will not unlock. For this reason, we also create
 a manual decryption key, to be used in those cases.
