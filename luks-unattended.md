@@ -1,20 +1,18 @@
 # Instructions for using dm-crypt/LUKS with Rocket Pool
 
 This guide explains how to configure a Rocket Pool node to store its configuration
-directory (e.g. `~/.rocketpool`) in an encrypted LUKS file container (not to be confused with Docker containers).
+directory (e.g. `~/.rocketpool`) in an encrypted LUKS "file container".
 
 This provides an added layer of security for node operators by keeping all Rocket
 Pool configuration assets encrypted.
 
-We describe an unattended unlock scheme, where the LUKS container will unlock
-automatically on every boot.
-
-Note that the full decryption key is never stored on the node.
-The LUKS container is unlocked by fetching a partial decryption key from an external host.
+The LUKS container is automatically unlocked at boot, by fetching a partial decryption key
+from an external host (e.g. a LAN file server, Dropbox, etc.), allowing for unattended operation of the node.
 
 ### Rationale
 
-The LUKS container will be automatically decrypted after every boot. This improves the UX for the node operator, allowing the node to tolerate reboots and power downs.
+The LUKS container will be automatically decrypted on every boot.
+This improves the UX for the node operator, allowing the node to tolerate reboots and power downs.
 
 We argue that this approach is reasonable in a threat model where a thief taking the device is unaware of its purpose (staking).
 A determined attacker, going after the keys specifically, will be able to subvert both this and the original Aegis key approaches - by simply using a boot disk while taking the care to not power down the node.
@@ -25,8 +23,10 @@ With this in mind, the automatic unlock scheme does still provides some security
   * If the (partial) decryption key is on a remote server, we can delete it before the attacker boots up the server on a new location
   * We can deploy creative countermeasures to slow down an adversary even more, and gain us enough time to scrub the remote key from its location
 
-While having the ability to make the LUKS container unlockable in case of theft is a desirable feature from a security standpoint, it may cause data availablity issues.
-If the 
+Being able to delete the encryption key remotely, and thus help protect the LUKS container in case of theft, is a desirable feature from a security standpoint.
+On the other hand, it may cause data availablity issues.
+If during a system boot, the server hosting the key is unavailable, the container will not unlock. For this reason, we also create
+a manual decryption key, to be used in those cases.
 
 ### Setup unattended LUKS container
 
