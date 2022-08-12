@@ -14,9 +14,9 @@ The LUKS container is unlocked by fetching a partial decryption key from an exte
 
 ### Rationale
 
-The LUKS container will be automatically decrypted after every boot.
+The LUKS container will be automatically decrypted after every boot. This improves the UX for the node operator, allowing the node to tolerate reboots and power downs.
 
-This approach is reasonable in a threat model where a thief taking the device is unaware of its purpose (staking).
+We argue that this approach is reasonable in a threat model where a thief taking the device is unaware of its purpose (staking).
 A determined attacker, going after the keys specifically, will be able to subvert both this and the original Aegis key approaches - by simply using a boot disk while taking the care to not power down the node.
 
 With this in mind, the automatic unlock scheme does still provides some security margin:
@@ -24,6 +24,9 @@ With this in mind, the automatic unlock scheme does still provides some security
   * If the (partial) decryption key is on a local server, the node will not be able to decrypt the container unless the local server is also stolen and properly configured on the attacker's network
   * If the (partial) decryption key is on a remote server, we can delete it before the attacker boots up the server on a new location
   * We can deploy creative countermeasures to slow down an adversary even more, and gain us enough time to scrub the remote key from its location
+
+While having the ability to make the LUKS container unlockable in case of theft is a desirable feature from a security standpoint, it may cause data availablity issues.
+If the 
 
 ### Setup unattended LUKS container
 
