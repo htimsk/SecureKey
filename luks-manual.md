@@ -52,7 +52,7 @@ in into the node and enter the decryption key on every boot.
     mkdir -m 0700 /var/lib/luks/vault/rocketpool
     sudo cp -a ~/.rocketpool/* /var/lib/luks/vault/rocketpool/
     mv .rocketpool .rocketpool.bak # We will remove this later
-    ln -s /var/lib/luks/vault/rocketpool $HOME/.rocketpool
+    ln -s /var/lib/luks/vault/rocketpool ~/.rocketpool
     ``` 
 
 1. Start the Rocket Pool Service
