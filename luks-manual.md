@@ -49,8 +49,7 @@ in into the node and enter the decryption key on every boot.
 1. Transfer the configuration files to the encrypted mount point
     ```shell
     sudo chown ${USER} -R /var/lib/luks/vault/
-    sudo chmod go-rwx ${USER}:${USER} -R /var/lib/luks/vault/ 
-    mkdir /var/lib/luks/vault/rocketpool
+    mkdir -m 0700 /var/lib/luks/vault/rocketpool
     sudo cp -a ~/.rocketpool/* /var/lib/luks/vault/rocketpool/
     mv .rocketpool .rocketpool.bak # We will remove this later
     ln -s /var/lib/luks/vault/rocketpool $HOME/.rocketpool
