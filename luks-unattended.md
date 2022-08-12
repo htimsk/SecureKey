@@ -57,7 +57,7 @@ With this in mind, the automatic unlock scheme does still provides some security
     sudo chown ${USER} -R /var/lib/luks/vault/
     mkdir -m 0700 /var/lib/luks/vault/rocketpool
     sudo cp -a ~/.rocketpool/* /var/lib/luks/vault/rocketpool/
-    mv .rocketpool .rocketpool.bak # We will remove this later
+    mv ~/.rocketpool ~/.rocketpool.bak # We will remove this later
     ln -s /var/lib/luks/vault/rocketpool ~/.rocketpool
     ``` 
 
