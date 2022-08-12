@@ -79,7 +79,7 @@ a manual decryption key, to be used in those cases.
 
 1. If everything is working correctly, remove the old configuration files
     ```shell
-    apt-get install secure-delete
+    sudo apt-get install secure-delete
     sudo srm -r ~/.rocketpool.bak
     ```
  
