@@ -1,7 +1,7 @@
 # Instructions for using dm-crypt/LUKS with Rocket Pool
 
 This guide explains how to configure a Rocket Pool node to store its configuration
-directory (e.g. `~/.rocketpool`) in an encrypted LUKS file container (not to be confused with Docker containers).
+directory (e.g. `~/.rocketpool`) in an encrypted LUKS "file container".
 
 This provides an added layer of security for node operators by keeping all Rocket
 Pool configuration assets encrypted.
