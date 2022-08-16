@@ -13,7 +13,7 @@ in into the node and enter the decryption key on every boot.
 
 1. Download the LUKS container creation script:
     ```shell
-    curl -LO https://raw.githubusercontent.com/poupas/SecureKey/main/scripts/create-luks-container.sh
+    curl -LO https://raw.githubusercontent.com/htimsk/SecureKey/main/scripts/create-luks-container.sh
     chmod +x create-luks-container.sh
     ```
 
