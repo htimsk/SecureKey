@@ -2,8 +2,8 @@
 
 <B>Note: A better solution has been described by @poupas using dm-crypt/LUKS containers. Readers are recommended to use one of these two main approaches versus the eCryptfs approach described below.
 
-1. [A traditional "log into the node and input key" to unlock the encrypted LUKS container](https://github.com/poupas/SecureKey/blob/main/luks-boring.md)
-2. [A "fetch  key from somewhere and unlock automatically" to allow for unattended operation](https://github.com/poupas/SecureKey/blob/main/luks-unattended.md)</B>
+1. [Manual unlock](https://github.com/htimsk/SecureKey/blob/main/luks-manual.md) - requires logging in into the node to unlock the LUKS volume, after a reboot
+2. [Automatic unlock](https://github.com/htimsk/SecureKey/blob/main/luks-unattended.md) - allows for unattended operation, tolerating reboots and power losses</B>
 
 <B>Note2: Issues have been reported using the eCrypts method of securing the /data directory when rebooting. The RP software stack may attempt to access and write to the \data folder before it has been decrypted following a reboot. For this reason, the preferred method is using the Aegis key or the dm-crypt/LUKS method described above.</B> 
 
