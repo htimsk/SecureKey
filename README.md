@@ -61,9 +61,14 @@ Apricorn Aegis Secure Key Model 3NX (4 GB) purchased on Amazon for $53 USD. Note
     ```
     sudo mkdir ~/.rocketpool/key
     ```
-1. Edit the /etc/fstab file (`sudo nano /etc/fstab`) to mount the filesystem automatically each time the server boots by adding the following to the bottom of the /etc/fstab file and save. Replace USERNAME with your the username where the /.rocketpool directory was installed.
+1. Use blkid to determine the UUID entry for the Aegis key:
+
     ```
-   /dev/sda1 /home/USERNAME/.rocketpool/key ext4 defaults 0 2
+    sudo blkid
+    ```
+1. Copy the UUID string delivered, and then use it without quotes in /etc/fstab (`sudo nano /etc/fstab`) by adding the following line to the bottom of the /etc/fstab file and save. Replace USERNAME with the username where the /.rocketpool directory was installed. Replace the XXXX with your Aegis key UUID. This will ensure that the Aegis key is mounted to the correct directory on each boot. Use of UUID ensures that the fstab entry will always point to the correct drive, even if other drives are connected or removed.
+    ```
+   UUID=XXXXXXXX-XXXX-XXXX-XXXXXXXXXXXX /home/USERNAME/.rocketpool/key ext4 defaults 0 2
     ```
 1. Mount the filesystem now by typing:
     ```
